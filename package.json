@@ -5,6 +5,7 @@
   "dependencies": {
     "@expo/ui": "~56.0.18",
     "@expo/vector-icons": "^15.1.1",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "expo": "~56.0.12",
     "expo-av": "^16.0.8",
     "expo-constants": "~56.0.18",
@@ -20,6 +21,7 @@
     "expo-symbols": "~56.0.6",
     "expo-system-ui": "~56.0.5",
     "expo-video": "~56.1.4",
+    "expo-video-thumbnails": "~56.0.3",
     "expo-web-browser": "~56.0.5",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

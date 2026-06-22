@@ -1,37 +1,18 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { useVideos } from "../context/VideoContext";
 
-export default function Home() {
-  const { videos } = useVideos();
+const { height } = Dimensions.get("window");
 
-  const firstVideo = videos.length > 0 ? videos[0] : null;
-
-  const player = useVideoPlayer(firstVideo ?? "", (player) => {
+function VideoItem({ uri }: { uri: string }) {
+  const player = useVideoPlayer(uri, (player) => {
     player.loop = true;
     player.play();
   });
 
-  if (!firstVideo) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#000",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ color: "#fff", fontSize: 20 }}>
-          No Videos Yet
-        </Text>
-      </View>
-    );
-  }
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#000" }}>
+    <View style={{ height, backgroundColor: "#000" }}>
       <VideoView
         player={player}
         style={{ flex: 1 }}
@@ -88,5 +69,36 @@ export default function Home() {
         </TouchableOpacity>
       </View>
     </View>
+  );
+}
+
+export default function Home() {
+  const { videos } = useVideos();
+
+  if (videos.length === 0) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#000",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ color: "#fff", fontSize: 20 }}>
+          No Videos Yet
+        </Text>
+      </View>
+    );
+  }
+
+  return (
+    <FlatList
+      data={videos}
+      pagingEnabled
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => <VideoItem uri={item} />}
+      keyExtractor={(_, index) => index.toString()}
+    />
   );
 }
